@@ -35,7 +35,7 @@ class RepositoriesController {
 
       const repository = await Repository.findOne({
         userId: user_id,
-        name,
+        url,
       });
 
       if (repository) {
@@ -58,14 +58,15 @@ class RepositoriesController {
   async destroy(req, res) {
     try {
       const { user_id, id } = req.params;
-
       const user = await User.findById(user_id);
-
+      
       if (!user) {
         return res.status(404).json();
       }
-
-      const repository = await Repository.findOne({ userId: user_id, id });
+      console.log("User: ",user.email);
+      console.log("ID: ",id);
+      
+      const repository = await Repository.findOne({ userId: user_id, _id: id});
 
       if (!repository) {
         return res.status(404).json();
